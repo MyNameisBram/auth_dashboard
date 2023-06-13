@@ -34,13 +34,13 @@ if id:
   high_level['became_customer_at'] = org['customer_join_date']
   high_level['allowed_views'] = org['allowance']
   high_level['credits_used'] = org['usage']
-#   high_level['prcnt_used'] = round(org['usage'] / org['allowance'], 2)
-#   high_level['current_cycle_start_date'] = org['start_cycle_date']
-#   high_level['cycle_length'] = org['current_cycle_date'] - org['start_cycle_date']
-#   high_level['days_left_in_cycle'] = 365 - high_level['cycle_length'].dt.days 
-#   high_level['prcnt_in_cycle'] = round(high_level['cycle_length'].dt.days  / 365, 2)
-#   # set first row to be index 
-#   high_level = high_level.set_index('org_name')
+  high_level['prcnt_used'] = round(org['usage'] / org['allowance'], 2)
+  high_level['current_cycle_start_date'] = org['start_cycle_date']
+  high_level['cycle_length'] = org['current_cycle_date'] - org['start_cycle_date']
+  high_level['days_left_in_cycle'] = 365 - high_level['cycle_length'].dt.days 
+  high_level['prcnt_in_cycle'] = round(high_level['cycle_length'].dt.days  / 365, 2)
+  # set first row to be index 
+  high_level = high_level.set_index('org_name')
   
   
   
