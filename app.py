@@ -51,8 +51,10 @@ kpi_value = org['usage']
 # Set a target
 target_kpi_value = org['allowance']
 
-# Display the KPI metric
-st.metric(kpi_metric, kpi_value, target=target_kpi_value)
+col1, col2, col3 = st.columns(3)
+col1.metric("Credit Used", kpi_value)
+col2.metric("Allowance", target_kpi_value)
+col3.metric("Total Profiles Created", "145")
 
 # Display the aggregated Tally dataframe
 st.table(high_level)
