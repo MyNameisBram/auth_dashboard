@@ -56,5 +56,9 @@ col1.metric("Credit Used", kpi_value)
 col2.metric("Allowance", target_kpi_value)
 col3.metric("Total Profiles Created", "145")
 
+# write company name
+st.header(org['name'])
+
+
 # Display the aggregated Tally dataframe
 st.table(high_level)
