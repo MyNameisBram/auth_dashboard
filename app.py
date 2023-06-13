@@ -15,5 +15,14 @@ id = st.selectbox("Select an id", ids)
 if id:
   profiles = pd.read_csv(f"profiles_{id}.csv")
 
-# Display the Profiles dataframe
-st.table(profiles)
+# Create a new dataframe for the aggregation
+agg_tally = tally.groupby(["name", "resource_id", "start_cycle_date", "current_cycle_date", "usage", "allowance"]).agg({"usage": "sum", "allowance": "sum"})
+
+# Create a new dataframe for the aggregation
+agg_profiles = profiles.groupby(["uuid"]).agg({"uuid": "count", "contributor_app_name": "value_counts", "type": "value_counts", "role": "nunique"})
+
+# Display the aggregated Tally dataframe
+st.table(agg_tally)
+
+# Display the aggregated Profiles dataframe
+st.table(agg_profiles)
