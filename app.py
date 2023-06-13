@@ -24,7 +24,7 @@ if id:
   profiles = pd.read_csv(f"profiles_{id}.csv")
  
   # Create a new dataframe for the aggregation
-  org = tally[tally.resource_id = id]
+  org = tally[tally.resource_id == id]
   
   high_level = pd.DataFrame()
   high_level['org_name'] = org['name']
