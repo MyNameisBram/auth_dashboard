@@ -43,7 +43,16 @@ if id:
   high_level = high_level.set_index('org_name')
   
   
-  
+
+# Define the KPI metric
+kpi_metric = "Number of Credit Used"
+# Calculate the metric
+kpi_value = org['usage']
+# Set a target
+target_kpi_value = org['allowance']
+
+# Display the KPI metric
+st.metric(kpi_metric, kpi_value, target=target_kpi_value)
+
 # Display the aggregated Tally dataframe
 st.table(high_level)
-
