@@ -5,6 +5,14 @@ import pandas as pd
 #profiles = pd.read_csv("profiles.csv")
 tally = pd.read_csv("tally.csv")
 
+# convert date to year-month-day
+tally['start_cycle_date'] = tally['start_cycle_date'].dt.strftime('%Y-%m-%d')
+tally['current_cycle_date'] = tally['current_cycle_date'].dt.strftime('%Y-%m-%d')
+
+# convert to datetime
+tally['start_cycle_date'] = pd.to_datetime(tally['start_cycle_date'])
+tally['current_cycle_date'] = pd.to_datetime(tally['current_cycle_date'])
+
 # Create a list of ids
 ids = tally["resource_id"].unique()
 
@@ -14,15 +22,27 @@ id = st.selectbox("Select an id", ids)
 # If an id is selected, read the corresponding Profiles dataframe
 if id:
   profiles = pd.read_csv(f"profiles_{id}.csv")
-
-# Create a new dataframe for the aggregation
-agg_tally = tally.groupby(["name", "resource_id", "start_cycle_date", "current_cycle_date", "usage", "allowance"]).agg({"usage": "sum", "allowance": "sum"})
-
-# Create a new dataframe for the aggregation
-agg_profiles = profiles.groupby(["uuid"]).agg({"uuid": "count", "contributor_app_name": "value_counts", "type": "value_counts", "role": "nunique"})
-
+ 
+  # Create a new dataframe for the aggregation
+  org = tally[tally.resource_id = id]
+  
+  high_level = pd.DataFrame()
+  high_level['org_name'] = org['name']
+  high_level['org_id'] = org['resource_id']
+  #high_level['num_team_members'] = num_team_members
+  high_level['became_customer_at'] = org['customer_join_date']
+  high_level['allowed_views'] = org['allowance']
+  high_level['credits_used'] = org['usage']
+  high_level['prcnt_used'] = round(org['usage'] / org['allowance'], 2)
+  high_level['current_cycle_start_date'] = org['start_cycle_date']
+  high_level['cycle_length'] = org['current_cycle_date'] - org['start_cycle_date']
+  high_level['days_left_in_cycle'] = 365 - high_level['cycle_length'].dt.days 
+  high_level['prcnt_in_cycle'] = round(high_level['cycle_length'].dt.days  / 365, 2)
+  # set first row to be index 
+  high_level = high_level.set_index('org_name')
+  
+  
+  
 # Display the aggregated Tally dataframe
-st.table(agg_tally)
+st.table(high_level)
 
-# Display the aggregated Profiles dataframe
-st.table(agg_profiles)
