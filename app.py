@@ -5,13 +5,14 @@ import pandas as pd
 #profiles = pd.read_csv("profiles.csv")
 tally = pd.read_csv("tally.csv")
 
+# convert to datetime
+tally['start_cycle_date'] = pd.to_datetime(tally['start_cycle_date'])
+tally['current_cycle_date'] = pd.to_datetime(tally['current_cycle_date'])
+
 # convert date to year-month-day
 tally['start_cycle_date'] = tally['start_cycle_date'].dt.strftime('%Y-%m-%d')
 tally['current_cycle_date'] = tally['current_cycle_date'].dt.strftime('%Y-%m-%d')
 
-# convert to datetime
-tally['start_cycle_date'] = pd.to_datetime(tally['start_cycle_date'])
-tally['current_cycle_date'] = pd.to_datetime(tally['current_cycle_date'])
 
 # Create a list of ids
 ids = tally["resource_id"].unique()
