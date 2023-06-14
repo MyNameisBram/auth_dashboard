@@ -22,7 +22,7 @@ id = st.selectbox("Select an id", ids)
 
 # If an id is selected, read the corresponding Profiles dataframe
 if id:
-  #profiles = pd.read_csv(f"profiles_{id}.csv")
+  profiles = pd.read_csv(f"profiles_{id}.csv")
  
   # Create a new dataframe for the aggregation
   org = tally[tally.resource_id == id]
@@ -50,14 +50,17 @@ kpi_metric = "Number of Credit Used"
 kpi_value = org['usage']
 # Set a target
 target_kpi_value = org['allowance']
+profiles_created = profiles.uuid.nunique()
 
 col1, col2, col3 = st.columns(3)
 col1.metric("Credit Used", kpi_value)
 col2.metric("Allowance", target_kpi_value)
-col3.metric("Total Profiles Created", "145")
+col3.metric("Total Profiles Created", profiles_created)
+
+org_name = org['name']
 
 # write company name
-st.header(org['name'])
+st.header(org_name)
 
 
 # Display the aggregated Tally dataframe
